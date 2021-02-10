@@ -1,0 +1,227 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.Runtime.InteropServices;
+using Excel = Microsoft.Office.Interop.Excel;
+
+namespace WpfApplication2
+{
+    /// <summary>
+    /// MainWindow.xaml에 대한 상호 작용 논리
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        public List<ResInfo> myList;
+        public string rbtCheck { get; set; }
+        public class ResInfo
+        {
+            public string name { get; set; }
+            public string menu { get; set; }
+            public double distance { get; set; }
+            public double taste { get; set; }
+            public double price { get; set; }
+            public double total { get; set; }
+
+            public ResInfo (string name, string menu, double distance, double taste, double price)
+            {
+                this.name = name;
+                this.menu = menu;
+                this.distance = distance;
+                this.taste = taste;
+                this.price = price;
+            }
+            public ResInfo ()
+            {
+                // TODO: Complete member initialization
+            }
+        }
+        public MainWindow ()
+        {
+            InitializeComponent();
+            ReadExcelData("C:/Users/cyshin/Desktop/LunchGenerator/text.xlsx");
+        }
+        public void ReadExcelData (string path)
+        { // path는 Excel파일의 전체 경로입니다.
+            // 예. D:\test\test.xslx
+            Excel.Application excelApp = null;
+            Excel.Workbook wb = null;
+            Excel.Worksheet ws = null;
+            try {
+                excelApp = new Excel.Application(path);
+                wb = excelApp.Workbooks.Open(path);
+                // path 대신 문자열도 가능합니다
+                // 예. Open(@"D:\test\test.xslx");
+                ws = wb.Worksheets.get_Item(1) as Excel.Worksheet;
+                // 첫번째 Worksheet를 선택합니다.
+                Excel.Range rng = ws.UsedRange;   // '여기'
+                // 현재 Worksheet에서 사용된 셀 전체를 선택합니다.
+                myList = new List<ResInfo>();
+
+                object[,] data = rng.Value;
+                // 열들에 들어있는 Data를 배열 (One-based array)로 받아옵니다.
+                for (int r = 2; r <= data.GetLength(0); r++) {
+                    ResInfo RI = new ResInfo(data[r, 1].ToString(), data[r, 2].ToString(), double.Parse(data[r, 3].ToString()), double.Parse(data[r, 4].ToString()), double.Parse(data[r, 5].ToString()));
+                    myList.Add(RI);
+                }
+                wb.Close(true);
+                excelApp.Quit();
+
+                return;
+            } catch (Exception ex) {
+                throw ex;
+            } finally {
+                ReleaseExcelObject(ws);
+                ReleaseExcelObject(wb);
+                ReleaseExcelObject(excelApp);
+            }
+        }
+        private static void ReleaseExcelObject (object obj)
+        {
+            try {
+                if (obj != null) {
+                    Marshal.ReleaseComObject(obj);
+                    obj = null;
+                }
+            } catch (Exception ex) {
+                obj = null;
+                throw ex;
+            } finally {
+                GC.Collect();
+            }
+        }
+        public void getTotal (ResInfo RI, string mode)
+        {
+            double m_Taste = 1;
+            double m_Distance = 1;
+            double m_Price = 1;
+
+            if (mode.Equals("맛")) {
+                m_Taste = 3;
+            } else if (mode.Equals("거리")) {
+                m_Distance = 3;
+            } else if (mode.Equals("가격")) {
+                m_Price = 3;
+            } else if (mode.Equals("랜덤")) {
+
+            } else if (mode.Equals("올랜")) {
+                //로직이 달라짐'
+            }
+
+            Random rand = new Random(DateTime.Now.Millisecond);
+            System.Threading.Thread.Sleep(10);
+
+            double a, b, c;
+            int r_Taste = rand.Next(1, 11);
+            int r_Distance = rand.Next(1, 11);
+            int r_Price = rand.Next(1, 11);
+            //tbxScore.Text += "r1 : " + r_Taste.ToString() + " r2 : " + r_Distance.ToString() + " r3 : " + r_Price.ToString() + "\n"; 
+            a = fomula(m_Taste, RI.distance, r_Taste);
+            b = fomula(m_Distance, RI.taste, r_Distance);
+            c = fomula(m_Price, RI.price, r_Price);
+            double total = a + b + c;
+            RI.total = total;
+        }
+        public void refreshTotal (string mode)
+        {
+            foreach (ResInfo item in myList) {
+                getTotal(item, mode);
+            }
+            return;
+        }
+        public double fomula (double x, double y, double z)    //weight, choice, random
+        {
+            return x / 5 * y / 5 * z / 10; 
+        }
+        public ResInfo findMax ()
+        {
+            ResInfo max = myList[0];
+
+            foreach (ResInfo item in myList) {
+                 if (item.total > max.total) {
+                    max = item;
+                }
+            }
+            return max;
+        }
+        public void showData (List<ResInfo> myList,ResInfo Max)
+        {
+            foreach (ResInfo item in myList) {
+                tbxScore.Text += item.name + " | " + item.total.ToString() + "\n"; 
+            }
+            tbxName.Text += Max.name;
+            tbxMenu.Text += Max.menu;
+        }
+        private void rbtRandom_Checked (object sender, RoutedEventArgs e)
+        {
+            rbtCheck = rbtRandom.Content.ToString();
+        }
+        private void rbtTaste_Checked (object sender, RoutedEventArgs e)
+        {
+            rbtCheck = rbtTaste.Content.ToString();
+        }
+        private void rbtDistance_Checked (object sender, RoutedEventArgs e)
+        {
+            rbtCheck = rbtDistance.Content.ToString();
+        }
+        private void rbtPrice_Checked (object sender, RoutedEventArgs e)
+        {
+            rbtCheck = rbtPrice.Content.ToString();
+        }
+        private void Button_Click_One (object sender, RoutedEventArgs e)
+        {
+            ResInfo Max;
+            //find max
+            refreshTotal(rbtCheck);
+            Max = findMax();
+            //show data
+            CleanAllBox();
+            showData(myList, Max);
+
+        }
+        private void Button_Click_Rank (object sender, RoutedEventArgs e)
+        {
+            List<ResInfo> RankList = new List<ResInfo>();
+            //find max
+
+            ResInfo Max;
+            CleanAllBox();
+            for (int i = 0; i < 5; i++) {
+                refreshTotal(rbtCheck);
+                Max = findMax();
+                showData(myList, Max);
+                ResInfo RI = new ResInfo();
+                RI.name = Max.name;
+                RI.menu = Max.menu;
+                RI.total = Max.total;
+                RankList.Add(RI);
+            }
+            int j = 1;
+            foreach (ResInfo item in RankList) {
+                tbxRank.Text += j++ + ". " + item.name + " " + item.menu + " " + item.total + "\n";
+            }
+            
+        }
+        private void CleanAllBox ()
+        {
+            tbxScore.Clear();
+            tbxName.Clear();
+            tbxMenu.Clear();
+            tbxRank.Clear();
+        }
+        /*
+        private void rbtAllRan_Checked (object sender, RoutedEventArgs e)
+        {
+            rbtCheck = rbtAllRan.Content.ToString();
+        }*/
+    }
+}

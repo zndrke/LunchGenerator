@@ -1,0 +1,24 @@
+d:\users\cyshin\documents\visual studio 2010\Projects\WpfApplication2\WpfApplication2\obj\x86\Debug\WpfApplication2.csproj.ResolveComReference.cache
+d:\users\cyshin\documents\visual studio 2010\Projects\WpfApplication2\WpfApplication2\obj\x86\Debug\MainWindow.baml
+d:\users\cyshin\documents\visual studio 2010\Projects\WpfApplication2\WpfApplication2\obj\x86\Debug\MainWindow.g.cs
+d:\users\cyshin\documents\visual studio 2010\Projects\WpfApplication2\WpfApplication2\obj\x86\Debug\App.g.cs
+d:\users\cyshin\documents\visual studio 2010\Projects\WpfApplication2\WpfApplication2\obj\x86\Debug\WpfApplication2_MarkupCompile.cache
+d:\users\cyshin\documents\visual studio 2010\Projects\WpfApplication2\WpfApplication2\obj\x86\Debug\WpfApplication2.g.resources
+d:\users\cyshin\documents\visual studio 2010\Projects\WpfApplication2\WpfApplication2\obj\x86\Debug\WpfApplication2.Properties.Resources.resources
+d:\users\cyshin\documents\visual studio 2010\Projects\WpfApplication2\WpfApplication2\obj\x86\Debug\WpfApplication2.csproj.GenerateResource.Cache
+d:\users\cyshin\documents\visual studio 2010\Projects\WpfApplication2\WpfApplication2\bin\Debug\WpfApplication2.exe
+d:\users\cyshin\documents\visual studio 2010\Projects\WpfApplication2\WpfApplication2\bin\Debug\WpfApplication2.pdb
+d:\users\cyshin\documents\visual studio 2010\Projects\WpfApplication2\WpfApplication2\obj\x86\Debug\WpfApplication2.exe
+d:\users\cyshin\documents\visual studio 2010\Projects\WpfApplication2\WpfApplication2\obj\x86\Debug\WpfApplication2.pdb
+C:\Users\cyshin\Desktop\LunchGenerator\WpfApplication2\obj\x86\Debug\WpfApplication2.csproj.ResolveComReference.cache
+C:\Users\cyshin\Desktop\LunchGenerator\WpfApplication2\obj\x86\Debug\WpfApplication2.exe
+C:\Users\cyshin\Desktop\LunchGenerator\WpfApplication2\obj\x86\Debug\WpfApplication2.pdb
+C:\Users\cyshin\Desktop\LunchGenerator\WpfApplication2\bin\Debug\WpfApplication2.exe
+C:\Users\cyshin\Desktop\LunchGenerator\WpfApplication2\bin\Debug\WpfApplication2.pdb
+C:\Users\cyshin\Desktop\LunchGenerator\WpfApplication2\obj\x86\Debug\MainWindow.baml
+C:\Users\cyshin\Desktop\LunchGenerator\WpfApplication2\obj\x86\Debug\MainWindow.g.cs
+C:\Users\cyshin\Desktop\LunchGenerator\WpfApplication2\obj\x86\Debug\App.g.cs
+C:\Users\cyshin\Desktop\LunchGenerator\WpfApplication2\obj\x86\Debug\WpfApplication2_MarkupCompile.cache
+C:\Users\cyshin\Desktop\LunchGenerator\WpfApplication2\obj\x86\Debug\WpfApplication2.g.resources
+C:\Users\cyshin\Desktop\LunchGenerator\WpfApplication2\obj\x86\Debug\WpfApplication2.Properties.Resources.resources
+C:\Users\cyshin\Desktop\LunchGenerator\WpfApplication2\obj\x86\Debug\WpfApplication2.csproj.GenerateResource.Cache

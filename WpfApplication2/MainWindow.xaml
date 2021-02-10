@@ -1,0 +1,23 @@
+﻿<Window x:Class="WpfApplication2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <TextBlock Text="Restaurant" Margin="23,20,406,270"/>
+        <TextBlock Text="Menu" Margin="23,60,406,230"/>
+        <TextBox x:Name="tbxRank" Margin="310,93,12,0" Height="141" VerticalAlignment="Top" />
+        <TextBox x:Name="tbxScore" Margin="12,93,199,12"/>
+        <TextBox x:Name="tbxName" Margin="110,12,199,0" Height="30" VerticalAlignment="Top" />
+        <Button x:Name="ReadOne" Content="1개 출력!" Margin="349,240,51,46" Click="Button_Click_One"/>
+        <Button x:Name="ReadFive" Content="Rank 출력!" Margin="349,271,51,12" Click="Button_Click_Rank"/>
+        <TextBox Height="30" Margin="110,52,199,0" Name="tbxMenu" VerticalAlignment="Top" />
+        <WrapPanel Margin="310,12,30,235">
+            <RadioButton Content="랜덤" x:Name="rbtRandom" GroupName="Choice" Checked="rbtRandom_Checked" IsChecked="True" />
+            <RadioButton Content="맛" x:Name="rbtTaste" GroupName="Choice" Checked="rbtTaste_Checked" />
+            <RadioButton Content="거리" x:Name="rbtDistance" GroupName="Choice" Checked="rbtDistance_Checked" />
+            <RadioButton Content="가격" x:Name="rbtPrice" GroupName="Choice" Checked="rbtPrice_Checked" />
+            <!--<RadioButton Content="올랜" x:Name="rbtAllRan" GroupName="Choice" Checked="rbtAllRan_Checked" />-->
+
+        </WrapPanel>
+    </Grid>
+</Window>
