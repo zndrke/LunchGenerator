@@ -50,6 +50,52 @@ namespace WpfApplication2
             InitializeComponent();
             ReadExcelData("C:/Users/cyshin/Desktop/LunchGenerator/text.xlsx");
         }
+        public void WriteExcelDate (string path, object[] mydata)
+        {
+            Excel.Application excelApp = null;
+            Excel.Workbook wb = null;
+            Excel.Worksheet ws = null;
+            try {
+                excelApp = new Excel.Application(path);
+                wb = excelApp.Workbooks.Open(path);
+                // path 대신 문자열도 가능합니다
+                // 예. Open(@"D:\test\test.xslx");
+                ws = wb.Worksheets.get_Item(1) as Excel.Worksheet;
+                // 첫번째 Worksheet를 선택합니다.
+                Excel.Range rng = ws.UsedRange;   // '여기'
+                // 현재 Worksheet에서 사용된 셀 전체를 선택합니다.
+                
+                object[,] data = rng.Value;
+                // 열들에 들어있는 Data를 배열 (One-based array)로 받아옵니다.
+                int DateLength = data.GetLength(0);
+
+                for (int i = 0; i < mydata.Length; i++) {
+                    data[DateLength + 1, i+1] = mydata[i];
+                } rng.Value = data;
+                // data를 불러온 엑셀파일에 적용시킵니다. 아직 완료 X
+
+                if (path != null)
+                    // path는 새로 저장될 엑셀파일의 경로입니다.
+                    // 따로 지정해준다면, "다른이름으로 저장" 의 역할을 합니다.
+                    // 상대경로도 가능합니다. (예. "secondExcel.xlsx")
+                    wb.SaveCopyAs(path);
+                else
+                    // 따로 저장하지 않는다면 지금 파일에 그대로 저장합니다.
+                    wb.Save();
+
+                wb.Close();
+                excelApp.Quit();
+
+                return;
+            } catch (Exception ex) {
+                throw ex;
+            } finally {
+                ReleaseExcelObject(ws);
+                ReleaseExcelObject(wb);
+                ReleaseExcelObject(excelApp);
+            }
+        
+        }        
         public void ReadExcelData (string path)
         { // path는 Excel파일의 전체 경로입니다.
             // 예. D:\test\test.xslx
@@ -121,9 +167,9 @@ namespace WpfApplication2
             System.Threading.Thread.Sleep(10);
 
             double a, b, c;
-            int r_Taste = rand.Next(1, 11);
-            int r_Distance = rand.Next(1, 11);
-            int r_Price = rand.Next(1, 11);
+            int r_Taste = rand.Next(1, 51);
+            int r_Distance = rand.Next(1, 51);
+            int r_Price = rand.Next(1, 51);
             //tbxScore.Text += "r1 : " + r_Taste.ToString() + " r2 : " + r_Distance.ToString() + " r3 : " + r_Price.ToString() + "\n"; 
             a = fomula(m_Taste, RI.distance, r_Taste);
             b = fomula(m_Distance, RI.taste, r_Distance);
@@ -140,7 +186,7 @@ namespace WpfApplication2
         }
         public double fomula (double x, double y, double z)    //weight, choice, random
         {
-            return x / 5 * y / 5 * z / 10; 
+            return x / 5 * y / 5 * z / 50; 
         }
         public ResInfo findMax ()
         {
@@ -209,7 +255,6 @@ namespace WpfApplication2
             foreach (ResInfo item in RankList) {
                 tbxRank.Text += j++ + ". " + item.name + " " + item.menu + " " + item.total + "\n";
             }
-            
         }
         private void CleanAllBox ()
         {
@@ -218,6 +263,18 @@ namespace WpfApplication2
             tbxMenu.Clear();
             tbxRank.Clear();
         }
+
+        private void Button_Click_Write (object sender, RoutedEventArgs e)
+        {
+            object[] data = new object[6];
+            data[0] = tbxInName.Text;
+            data[1] = tbxInMenu.Text;
+            data[2] = tbxInDistance.Text;
+            data[3] = tbxInTaste.Text;
+            data[4] = tbxInPrice.Text;
+            WriteExcelDate("C:/Users/cyshin/Desktop/LunchGenerator/text.xlsx",data);
+            MessageBox.Show(" 입력되었습니다! ");
+        }  
         /*
         private void rbtAllRan_Checked (object sender, RoutedEventArgs e)
         {
