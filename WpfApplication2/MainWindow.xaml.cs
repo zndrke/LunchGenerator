@@ -56,7 +56,7 @@ namespace WpfApplication2
             Excel.Workbook wb = null;
             Excel.Worksheet ws = null;
             try {
-                excelApp = new Excel.Application(path);
+                excelApp = new Excel.Application();
                 wb = excelApp.Workbooks.Open(path);
                 // path 대신 문자열도 가능합니다
                 // 예. Open(@"D:\test\test.xslx");
@@ -67,23 +67,25 @@ namespace WpfApplication2
                 
                 object[,] data = rng.Value;
                 // 열들에 들어있는 Data를 배열 (One-based array)로 받아옵니다.
-                int DateLength = data.GetLength(0);
-
+                 
                 for (int i = 0; i < mydata.Length; i++) {
-                    data[DateLength + 1, i+1] = mydata[i];
-                } rng.Value = data;
+                    ws.Cells[data.GetLength(0)+1 , i+1] = mydata[i];
+                }   
+                
                 // data를 불러온 엑셀파일에 적용시킵니다. 아직 완료 X
-
+                /*
                 if (path != null)
                     // path는 새로 저장될 엑셀파일의 경로입니다.
                     // 따로 지정해준다면, "다른이름으로 저장" 의 역할을 합니다.
                     // 상대경로도 가능합니다. (예. "secondExcel.xlsx")
-                    wb.SaveCopyAs(path);
+                    wb.SaveAs(path,Excel.XlFileFormat.xlWorkbookNormal);
                 else
                     // 따로 저장하지 않는다면 지금 파일에 그대로 저장합니다.
                     wb.Save();
-
-                wb.Close();
+                */
+                wb.Save();
+             
+                wb.Close(false,Type.Missing,Type.Missing);
                 excelApp.Quit();
 
                 return;
@@ -167,9 +169,9 @@ namespace WpfApplication2
             System.Threading.Thread.Sleep(10);
 
             double a, b, c;
-            int r_Taste = rand.Next(1, 51);
-            int r_Distance = rand.Next(1, 51);
-            int r_Price = rand.Next(1, 51);
+            int r_Taste = rand.Next(1, 101);
+            int r_Distance = rand.Next(1, 101);
+            int r_Price = rand.Next(1, 101);
             //tbxScore.Text += "r1 : " + r_Taste.ToString() + " r2 : " + r_Distance.ToString() + " r3 : " + r_Price.ToString() + "\n"; 
             a = fomula(m_Taste, RI.distance, r_Taste);
             b = fomula(m_Distance, RI.taste, r_Distance);
@@ -186,7 +188,7 @@ namespace WpfApplication2
         }
         public double fomula (double x, double y, double z)    //weight, choice, random
         {
-            return x / 5 * y / 5 * z / 50; 
+            return x / 5 * y / 5 * z / 100; 
         }
         public ResInfo findMax ()
         {
@@ -266,12 +268,15 @@ namespace WpfApplication2
 
         private void Button_Click_Write (object sender, RoutedEventArgs e)
         {
-            object[] data = new object[6];
+            object[] data = new object[5];
             data[0] = tbxInName.Text;
             data[1] = tbxInMenu.Text;
             data[2] = tbxInDistance.Text;
             data[3] = tbxInTaste.Text;
             data[4] = tbxInPrice.Text;
+            tbxInDate.Text = DateTime.Now.ToString("yyyyMMdd");
+            data[5] = tbxInDate.Text;
+
             WriteExcelDate("C:/Users/cyshin/Desktop/LunchGenerator/text.xlsx",data);
             MessageBox.Show(" 입력되었습니다! ");
         }  
