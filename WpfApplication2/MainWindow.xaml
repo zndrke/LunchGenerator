@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="380" Width="525">
     <Grid>
+        <TextBlock Text="최종저장일" Margin="276,0,0,322" HorizontalAlignment="Left" Width="68" />
+        <TextBlock x:Name="tbxDate" Margin="0,0,0,322" HorizontalAlignment="Right" Width="151" />
         <TabControl>
             <TabItem Header="출력하기">
                 <Grid>
@@ -23,21 +25,45 @@
                     </WrapPanel>
                 </Grid>
             </TabItem>
-            <TabItem Header="입력하기">
+            <TabItem Header="새로입력">
                 <Grid>
-                    <TextBlock Text="식당" Margin="20,20,406,270" />
-                    <TextBox x:Name="tbxInName" Margin="87,12,199,0" Height="30" VerticalAlignment="Top" />
-                    <TextBlock Text="메뉴" Margin="20,60,406,230" />
-                    <TextBox x:Name="tbxInMenu" Margin="87,52,199,0" Height="30" VerticalAlignment="Top" />
-                    <TextBlock Text="거리" Margin="20,100,406,190" />
-                    <TextBox x:Name="tbxInDistance" Margin="87,92,199,0" Height="30" VerticalAlignment="Top" />
-                    <TextBlock Text="맛" Margin="20,140,406,150" />
-                    <TextBox x:Name="tbxInTaste" Margin="87,132,199,0" Height="30" VerticalAlignment="Top" />
-                    <TextBlock Text="가격" Margin="20,180,406,110" />
-                    <TextBox x:Name="tbxInPrice" Margin="87,172,199,0" Height="30" VerticalAlignment="Top" />
-                    <TextBlock Text="최종저장일" Margin="20,220,406,70" />
-                    <TextBox x:Name="tbxInDate" Text="입력하기를 누르면 자동으로 입력" Margin="87,212,199,0" Height="30" VerticalAlignment="Top" />
+                    <TextBlock Text="식당" Margin="20,20,400,270" />
+                    <TextBox x:Name="tbxInName" Margin="90,20,200,0" Height="20" VerticalAlignment="Top" />
+                    <TextBlock Text="메뉴" Margin="20,50,400,240" />
+                    <TextBox x:Name="tbxInMenu" Margin="90,50,200,0" Height="20" VerticalAlignment="Top" />
+                    <TextBlock Text="거리" Margin="20,80,400,210" />
+                    <TextBox x:Name="tbxInDistance" Margin="90,80,200,0" Height="20" VerticalAlignment="Top" />
+                    <TextBlock Text="맛" Margin="20,110,400,180" />
+                    <TextBox x:Name="tbxInTaste" Margin="90,110,200,0" Height="20" VerticalAlignment="Top" />
+                    <TextBlock Text="가격" Margin="20,140,400,150" />
+                    <TextBox x:Name="tbxInPrice" Margin="90,140,200,0" Height="20" VerticalAlignment="Top" />
+                    <TextBlock Text="방문일자" Margin="20,170,400,120" />
+                    <TextBox x:Name="tbxInVisit" Text="자동입력됨" Margin="90,170,200,0" Height="20" VerticalAlignment="Top" />
                     <Button x:Name="btnWrite" Content="입력하기" Margin="342,262,35,24" Click="Button_Click_Write" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="검색정정">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0" />
+                        <ColumnDefinition Width="497" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="식당" Margin="20,20,400,270" Grid.Column="1" />
+                    <TextBox x:Name="tbxSearchName" Margin="90,20,300,0" Height="20" VerticalAlignment="Top" Grid.Column="1" />
+                    <TextBlock Text="메뉴" Margin="20,50,400,240" Grid.Column="1" />
+                    <TextBox x:Name="tbxSearchMenu" Margin="90,50,300,0" Height="20" VerticalAlignment="Top" Grid.Column="1" />
+                    <TextBlock Text="거리" Margin="20,80,400,210" Grid.Column="1" />
+                    <TextBox x:Name="tbxSearchDistance" Margin="90,80,300,0" Height="20" VerticalAlignment="Top" IsReadOnly="True" Grid.Column="1" />
+                    <TextBlock Text="맛" Margin="20,110,400,180" Grid.Column="1" />
+                    <TextBox x:Name="tbxSearchTaste" Margin="90,110,300,0" Height="20" VerticalAlignment="Top" IsReadOnly="True" Grid.Column="1" />
+                    <TextBlock Text="가격" Margin="20,140,400,150" Grid.Column="1" />
+                    <TextBox x:Name="tbxSearchPrice" Margin="90,140,300,0" Height="20" VerticalAlignment="Top" IsReadOnly="True" Grid.Column="1" />
+                    <TextBlock Text="방문일자" Margin="20,170,400,120" Grid.Column="1" />
+                    <TextBox x:Name="tbxSearchVisit" Text="자동입력됨" Margin="90,170,300,0" Height="20" VerticalAlignment="Top" Grid.Column="1" />
+                    <TextBlock Text="검색결과" Margin="322,2,104,288" Grid.Column="1" />
+                    <TextBox x:Name="tbxSearchResult" Text="" Margin="203,21,18,0" Height="172" VerticalAlignment="Top" Width="276" Grid.Column="1" />
+                    <Button x:Name="btnSearch" Content="검색하기" Margin="342,222,35,64" Click="Button_Click_Write" Grid.Column="1" />
+                    <Button x:Name="btnSearchWrite" Content="입력하기" Margin="342,262,35,24" Click="Button_Click_Write" Grid.Column="1" />
                 </Grid>
             </TabItem>
         </TabControl>

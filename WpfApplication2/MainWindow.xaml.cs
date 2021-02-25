@@ -31,8 +31,9 @@ namespace WpfApplication2
             public double taste { get; set; }
             public double price { get; set; }
             public double total { get; set; }
+            public double period { get; set; }
 
-            public ResInfo (string name, string menu, double distance, double taste, double price)
+            public ResInfo (string name, string menu, double distance, double taste, double price,double period)
             {
                 this.name = name;
                 this.menu = menu;
@@ -70,7 +71,7 @@ namespace WpfApplication2
                  
                 for (int i = 0; i < mydata.Length; i++) {
                     ws.Cells[data.GetLength(0)+1 , i+1] = mydata[i];
-                }   
+                }
                 
                 // data를 불러온 엑셀파일에 적용시킵니다. 아직 완료 X
                 /*
@@ -114,13 +115,37 @@ namespace WpfApplication2
                 Excel.Range rng = ws.UsedRange;   // '여기'
                 // 현재 Worksheet에서 사용된 셀 전체를 선택합니다.
                 myList = new List<ResInfo>();
+                
+                TimeSpan day = new TimeSpan();
+                for (int i = 2; i <= ws.UsedRange.Rows.Count; i++) {
+
+                    if (ws.Cells[i, 6].ToString() != null) {
+                        day = DateTime.Now - Convert.ToDateTime(ws.Cells[i, 6].ToString());
+                    }
+                    if ((double)day.TotalDays <= 7) {
+                        ws.Cells[i, 7] = "1";
+                    } else if ((double)day.TotalDays > 7 && (double)day.TotalDays <= 14) {
+                        ws.Cells[i, 7] = "2";
+                    } else if ((double)day.TotalDays > 14 && (double)day.TotalDays <= 21) {
+                        ws.Cells[i, 7] = "3";
+                    } else if ((double)day.TotalDays > 21 && (double)day.TotalDays <= 28) {
+                        ws.Cells[i, 7] = "4";
+                    } else if ((double)day.TotalDays > 28) {
+                        ws.Cells[i, 7] = "5";
+                    }
+                }
 
                 object[,] data = rng.Value;
+
                 // 열들에 들어있는 Data를 배열 (One-based array)로 받아옵니다.
                 for (int r = 2; r <= data.GetLength(0); r++) {
-                    ResInfo RI = new ResInfo(data[r, 1].ToString(), data[r, 2].ToString(), double.Parse(data[r, 3].ToString()), double.Parse(data[r, 4].ToString()), double.Parse(data[r, 5].ToString()));
+                    ResInfo RI = new ResInfo(data[r, 1].ToString(), data[r, 2].ToString(),
+                        double.Parse(data[r, 3].ToString()), double.Parse(data[r, 4].ToString()),
+                        double.Parse(data[r, 5].ToString()), double.Parse(data[r, 7].ToString()));
                     myList.Add(RI);
                 }
+                tbxDate.Text = data[1,6].ToString();
+                
                 wb.Close(true);
                 excelApp.Quit();
 
@@ -154,11 +179,11 @@ namespace WpfApplication2
             double m_Price = 1;
 
             if (mode.Equals("맛")) {
-                m_Taste = 3;
+                m_Taste = 4;
             } else if (mode.Equals("거리")) {
-                m_Distance = 3;
+                m_Distance = 4;
             } else if (mode.Equals("가격")) {
-                m_Price = 3;
+                m_Price = 4;
             } else if (mode.Equals("랜덤")) {
 
             } else if (mode.Equals("올랜")) {
@@ -265,17 +290,21 @@ namespace WpfApplication2
             tbxMenu.Clear();
             tbxRank.Clear();
         }
-
+        private object[,] UpdatePeriod (object[,] data, Excel.Worksheet ws)
+        {
+            
+            
+            return data;
+        }
         private void Button_Click_Write (object sender, RoutedEventArgs e)
         {
-            object[] data = new object[5];
+            object[] data = new object[6];
             data[0] = tbxInName.Text;
             data[1] = tbxInMenu.Text;
             data[2] = tbxInDistance.Text;
             data[3] = tbxInTaste.Text;
             data[4] = tbxInPrice.Text;
-            tbxInDate.Text = DateTime.Now.ToString("yyyyMMdd");
-            data[5] = tbxInDate.Text;
+            data[5] = tbxDate.Text;
 
             WriteExcelDate("C:/Users/cyshin/Desktop/LunchGenerator/text.xlsx",data);
             MessageBox.Show(" 입력되었습니다! ");
